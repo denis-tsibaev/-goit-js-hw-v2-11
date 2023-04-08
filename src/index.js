@@ -6,21 +6,18 @@ import galleryMarkup from './templates/cards-template.js';
 
 const formEl = document.querySelector('#search-form');
 const galleyEl = document.querySelector('.js-gallery');
-const FetchPixabay = new FetchPixabay();
+const loadMoreBtn = document.querySelector('.load-more');
+const fetchPixabayInstance = new FetchPixabay();
 
 formEl.addEventListener('submit', inputHandler);
+loadMoreBtn.addEventListener('click', onLoadMoreHandler);
 
 function inputHandler(event) {
   event.preventDefault();
-  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
-  if (searchQuery === '') {
-    return alert('empty query');
-  }
-  console.log('searchQuery: ', searchQuery);
+  fetchPixabayInstance.query =
+    event.currentTarget.elements.searchQuery.value.trim();
   try {
-    // fetchApi(searchQuery).then(render);
-    // FetchPixabay.fetchApi(searchQuery).then(render);
-    FetchPixabay.fetchApi();
+    fetchPixabayInstance.fetchApi().then(render);
   } catch (error) {
     console.log('error message in try-catch: ', error.message);
   }
@@ -29,6 +26,14 @@ function inputHandler(event) {
 function render(data) {
   galleyEl.innerHTML = galleryMarkup(data);
   lightbox();
+}
+
+function onLoadMoreHandler() {
+  try {
+    fetchPixabayInstance.fetchApi().then(render);
+  } catch (error) {
+    console.log('error message in try-catch: ', error.message);
+  }
 }
 
 function lightbox() {
