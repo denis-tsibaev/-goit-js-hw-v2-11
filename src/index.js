@@ -1,6 +1,6 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+// import SimpleLightbox from 'simplelightbox';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
 import FetchPixabay from './service-api.js';
 import galleryMarkup from './templates/cards-template.js';
 
@@ -55,9 +55,9 @@ async function onLoadMoreHandler() {
   }
 }
 
-async function render(data) {
+function render(data) {
   galleryEl.insertAdjacentHTML('beforeend', galleryMarkup(data));
-  lightbox();
+  //   lightbox();
 }
 
 function clearGallery() {
