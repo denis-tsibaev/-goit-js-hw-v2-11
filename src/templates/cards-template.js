@@ -1,17 +1,3 @@
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
-function lightbox() {
-  new SimpleLightbox('.photo-card a', {
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 250,
-    overlayOpacity: 0.8,
-  });
-}
-
-lightbox();
-
 export default function galleryMarkup(data) {
   const obj = data.hits;
   const cardsByString = obj
