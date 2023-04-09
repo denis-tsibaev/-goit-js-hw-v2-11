@@ -13,8 +13,8 @@ formEl.addEventListener('submit', inputHandler);
 loadMoreBtn.addEventListener('click', onLoadMoreHandler);
 
 async function inputHandler(event) {
-  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
   event.preventDefault();
+  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
   fetchPixabayInstance.query = searchQuery;
   fetchPixabayInstance.resetPage();
 
@@ -33,11 +33,13 @@ async function inputHandler(event) {
         return;
       }
 
-      if (data.total > fetchPixabayInstance.perPage) {
+      if (data.totalHits > fetchPixabayInstance.perPage) {
         loadMoreBtn.classList.remove('is-hidden');
       }
+      event.target.reset();
       clearGallery();
       render(data);
+      Notify.success(`Hooray! We found ${data.totalHits} images.`);
     });
   } catch (error) {
     console.log('error message in try-catch: ', error.message);
@@ -47,8 +49,23 @@ async function inputHandler(event) {
 async function onLoadMoreHandler() {
   loadMoreBtn.classList.add('is-hidden');
   try {
-    fetchPixabayInstance.fetchApi().then(render);
-    slowScrollDown();
+    fetchPixabayInstance.fetchApi().then(data => {
+      const totalPages = Math.ceil(
+        data.totalHits / fetchPixabayInstance.perPage
+      );
+
+      if (totalPages <= fetchPixabayInstance.page - 1) {
+        loadMoreBtn.classList.add('is-hidden');
+        Notify.info(
+          "We're sorry, but you've reached the end of search results."
+        );
+        render(data);
+        slowScrollDown();
+        return;
+      }
+      render(data);
+      slowScrollDown();
+    });
     loadMoreBtn.classList.remove('is-hidden');
   } catch (error) {
     console.log('error message in try-catch: ', error.message);
@@ -57,21 +74,20 @@ async function onLoadMoreHandler() {
 
 function render(data) {
   galleryEl.insertAdjacentHTML('beforeend', galleryMarkup(data));
-  lightbox();
+  gallery.refresh();
 }
 
 function clearGallery() {
   galleryEl.innerHTML = '';
 }
 
-function lightbox() {
-  new SimpleLightbox('.photo-card a', {
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 250,
-    overlayOpacity: 0.8,
-  });
-}
+let gallery = new SimpleLightbox('.photo-card a', {
+  enableKeyboard: true,
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+  overlayOpacity: 0.8,
+});
 
 function slowScrollDown() {
   const { height: cardHeight } = document

@@ -19,7 +19,7 @@ export default class FetchPixabay {
     const data = await response.json();
     console.log('this: ', this);
     console.log('data: ', data);
-    // console.log('total: ', data.total);
+    console.log('total: ', data.total);
     this.incrementPage();
     return data;
   }
