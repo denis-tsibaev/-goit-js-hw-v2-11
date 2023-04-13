@@ -1,8 +1,8 @@
 {
-	"name": "goit-js-hw-v2-11",
+	"name": "hw-v2-11",
 	"version": "2.0.0",
 	"description": "",
-	"homepage": "https://denis-tsibaev.github.io/goit-js-hw-v2-11",
+	"homepage": "https://denis-tsibaev.github.io/goit-js-hw-v2-11/",
 	"scripts": {
 		"start": "parcel src/*.html",
 		"build": "parcel build src/*.html --public-url /goit-js-hw-v2-11/"
@@ -12,15 +12,13 @@
 		"url": "git+https://github.com/goitacademy/parcel-project-template.git"
 	},
 	"keywords": [],
-	"author": "Denis Tsibaev",
+	"author": "Tsibaev Denis",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/goitacademy/parcel-project-template/issues"
 	},
 	"dependencies": {
-		"simplelightbox": "^2.13.0",
-		"modern-normalize": "^1.1.0",
-		"notiflix": "^3.2.6"
+		"modern-normalize": "^1.1.0"
 	},
 	"devDependencies": {
 		"@parcel/transformer-sass": "^2.6.0",
